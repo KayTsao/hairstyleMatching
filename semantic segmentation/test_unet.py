@@ -71,17 +71,19 @@ def evaluate(model, i_dir, o_dir):
 def parse_command_line():
     parser = argparse.ArgumentParser()
     parser.add_argument("i", help = "Input folder directory")
-    parser.add_argument("o", help = "Output folder directory")    
+    parser.add_argument("o", help = "Output folder directory") 
+    parser.add_argument("t", help = "segmentation target [hair/face]")    
     args = parser.parse_args()
-    return args.i, args.o
+    return args.i, args.o, args.t
 
 
 if __name__ == '__main__':
-    i_dir, o_dir = parse_command_line()
+    i_dir, o_dir, model_type = parse_command_line()
     
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model = MobileNetV2_unet()
-    model.load_state_dict(torch.load('{}/{}-best.pth'.format(OUT_DIR, 0)))
+    model.load_state_dict(torch.load('{}/{}-best-{}.pth'.format(OUT_DIR, 0, model_type)))
+    #model.load_state_dict(torch.load('{}/{}-best-hair.pth'.format(OUT_DIR, 0)))
     model.to(device)
     model.eval()
     

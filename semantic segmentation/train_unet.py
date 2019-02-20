@@ -70,9 +70,9 @@ def get_data_loaders(train_files, val_files, img_size=224):
     return train_loader, val_loader
 
 
-def save_best_model(cv, model, df_hist):
+def save_best_model(cv, model, df_hist,target):
     if df_hist['val_loss'].tail(1).iloc[0] <= df_hist['val_loss'].min():
-        torch.save(model.state_dict(), '{}/{}-best.pth'.format(OUT_DIR, cv))
+        torch.save(model.state_dict(), '{}/{}-best-{}.pth'.format(OUT_DIR, cv, target))
 
 
 def write_on_board(writer, df_hist):
@@ -93,7 +93,7 @@ def log_hist(df_hist):
     logger.debug('')
 
 
-def run_cv(img_size, pre_trained):
+def run_cv(img_size, pre_trained, target):
     image_files = get_img_files()
     kf = KFold(n_splits=N_CV, random_state=RANDOM_STATE, shuffle=True)
 
@@ -106,7 +106,7 @@ def run_cv(img_size, pre_trained):
         writer = SummaryWriter()
 
         def on_after_epoch(m, df_hist):
-            save_best_model(n, m, df_hist)
+            save_best_model(n, m, df_hist, target)
             write_on_board(writer, df_hist)
             log_hist(df_hist)
 
@@ -146,6 +146,11 @@ if __name__ == '__main__':
         '--pre_trained',
         type=str,
         help='path of pre trained weight',
+    )
+    parser.add_argument(
+        '--target',
+        type=str,
+        help='training target [hair/face]',
     )
     args, _ = parser.parse_known_args()
     print(args)

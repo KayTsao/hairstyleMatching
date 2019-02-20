@@ -1,4 +1,6 @@
 *.jpg
 *.bmp
 *.png
-*.pth
+*.log
+*.csv
+*/runs/*
