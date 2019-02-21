@@ -5,11 +5,11 @@ import sys
 import torch
 import torch.nn as nn
 
-from nets.MobileNetV2 import MobileNetV2, InvertedResidual
+from SemSeg.nets.MobileNetV2 import MobileNetV2, InvertedResidual
 
 
 class MobileNetV2_unet(nn.Module):
-    def __init__(self, pre_trained='weights/mobilenet_v2.pth.tar'):
+    def __init__(self, pre_trained='SemSeg/weights/mobilenet_v2.pth.tar'):
         super(MobileNetV2_unet, self).__init__()
 
         self.backbone = MobileNetV2()

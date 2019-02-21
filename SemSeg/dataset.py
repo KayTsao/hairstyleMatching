@@ -6,10 +6,9 @@ import cv2
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
-
-from config import IMG_DIR
-
+from SemSeg.config import IMG_DIR
 import matplotlib.pyplot as plt
+
 #-----------------------------Test-----------------------------
 def _check_img(img_file):
     if os.path.splitext(img_file)[-1] == ".png":
@@ -34,6 +33,7 @@ class MaskTestSet(Dataset):
         return img
     def __len__(self):
         return len(self.img_files)
+
 
 #-----------------------------Train&Eval------------------------
 def _mask_to_img(mask_file):

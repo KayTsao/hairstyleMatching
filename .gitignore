@@ -1,6 +1,8 @@
-*.jpg
+__pycache__/
 *.bmp
+*.jpg
 *.png
 *.log
 *.csv
 */runs/*
+Untitled Folder
