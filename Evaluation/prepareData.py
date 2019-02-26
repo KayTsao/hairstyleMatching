@@ -33,33 +33,55 @@ def change_color(i_dir,o_dir):
             img.putpixel((i,j),(img_data[0]+msk_data[0], img_data[1]+msk_data[1], img_data[2]+msk_data[2], 255))
 ''' 
     
+def png2jpg(i_dir, o_dir):
+    files = os.listdir(i_dir)
+    total_num = len(files)
+    print(total_num)
+    idx=1
+    for f in files:
+        print('%i of %i' %(idx, total_num))
+        portion = os.path.splitext(f)
+        if portion[1] == ".png":
+            img = Image.open(i_dir + f)
+            newname = portion[0] + '.jpg'
+            img.save(newname)
+        #os.rename(os.path.join(i_dir,f),os.path.join(i_dir,newname))
+        idx += 1
 
 def parse_command_line():
-    if len(sys.argv) < 1:
+    if len(sys.argv) < 2:
         display_help()
         exit(-1)
 
     input_dir = sys.argv[1]
+    output_dir = sys.argv[2]
     
-    return input_dir
+    return input_dir, output_dir
 
 if __name__ == '__main__':
-    i_dir = parse_command_line()
-
-    path = i_dir
-    files = os.listdir(path)
+    i_dir, o_dir = parse_command_line()
+    png2jpg(i_dir, o_dir)
+'''
+    size = 224,224
+    files = os.listdir(i_dir)
     total_num = len(files)
-    s = []
+    print(total_num)
     idx=1
+    
     for f in files:
-        newname = str(idx)
-        newname = newname.zfill(3)
-        newname += '.png'
-        os.rename(os.path.join(path,f),os.path.join(path,newname))
-        idx += 1
         print('%i of %i' %(idx, total_num))
-
-
-
+        img = Image.open(i_dir + f)
+        img = img.convert("L")
+        img = img.resize((size), Image.ANTIALIAS)
+        
+        f_Id = str(idx)
+        f_Id = f_Id.zfill(3)
+        newname = 'pt-' + f_Id + '.png'
+        newname = os.path.join(o_dir,newname)
+        print(newname)
+        img.save(newname)
+        #os.rename(os.path.join(i_dir,f),os.path.join(i_dir,newname))
+        idx += 1
+ '''      
 #img = img.convert("RGB")#把图片强制转成RGB
 #img.save(o_dir)#保存修改像素点后的图片
