@@ -60,14 +60,11 @@ def parse_command_line():
 
 if __name__ == '__main__':
     i_dir, o_dir = parse_command_line()
-    png2jpg(i_dir, o_dir)
-'''
     size = 224,224
     files = os.listdir(i_dir)
     total_num = len(files)
     print(total_num)
-    idx=1
-    
+    idx=1    
     for f in files:
         print('%i of %i' %(idx, total_num))
         img = Image.open(i_dir + f)
@@ -76,12 +73,15 @@ if __name__ == '__main__':
         
         f_Id = str(idx)
         f_Id = f_Id.zfill(3)
-        newname = 'pt-' + f_Id + '.png'
+        newname = 'test-' + f_Id + '.jpg'
         newname = os.path.join(o_dir,newname)
-        print(newname)
+        #print(newname)
         img.save(newname)
         #os.rename(os.path.join(i_dir,f),os.path.join(i_dir,newname))
         idx += 1
- '''      
+''' 
+    i_dir, o_dir = parse_command_line()
+    png2jpg(i_dir, o_dir)
+'''     
 #img = img.convert("RGB")#把图片强制转成RGB
 #img.save(o_dir)#保存修改像素点后的图片

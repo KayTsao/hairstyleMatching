@@ -45,6 +45,31 @@ def get_img_files(i_dir):
     #print(img_files)
     return np.array([_check_img(f) for f in img_files])
 
+class HairStyleTestSet(Dataset):
+    """Hair Style Dataset."""
+    def __init__(self, img_files, transform=None):
+        """
+        Args:
+            img_files (string): Directory with all the images
+            transform (callable, optional): Optional transform to be applied on a sample
+        """
+        self.img_files = img_files
+        self.transform = transform
+        
+    def __getitem__(self, idx):
+        img = cv2.imread(self.img_files[idx])
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        img_name = self.img_files[idx]
+        img_name = img_name.split("/")[-1]
+        img = Image.fromarray(img)
+        img = self.transform(img)
+        return img
+
+    def __len__(self):
+        return len(self.img_files)
+
+
 class HairStyleDataset(Dataset):
     """Hair Style Dataset."""
     def __init__(self, img_files, transform=None):
@@ -73,6 +98,20 @@ class HairStyleDataset(Dataset):
 
     def __len__(self):
         return len(self.img_files)
+
+def get_testdata_loader(test_files, img_size=224):
+    test_transform = Compose([
+        Resize((img_size, img_size)),
+        ToTensor(),
+        Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+    ])
+
+    test_loader = DataLoader(HairStyleTestSet(test_files, test_transform),
+                              batch_size=BATCH_SIZE,
+                              shuffle=True,
+                              pin_memory=True,
+                              num_workers=4)
+    return test_loader
 
 def get_data_loaders(train_files, val_files, img_size=224):
     train_transform = Compose([
