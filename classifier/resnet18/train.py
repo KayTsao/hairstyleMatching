@@ -6,7 +6,8 @@ import copy
 
 import matplotlib.pyplot as plt
 from dataset import imshow
-class_names=['lc0', 'lcb', 'ls0', 'lsb', 'mc0', 'mcb', 'ms0', 'msb', 'pt']
+#class_names=['lc0', 'lcb', 'ls0', 'lsb', 'mc0', 'mcb', 'ms0', 'msb', 'pt']
+class_names=['l1','l2', 'l3','l4', 'l5', 'l6', 'm1', 'm2', 'm3', 'm4', 'm5', 'm6', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'p1', 'p2', 'p3']
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs, dataloaders, dataset_sizes, device):
     since = time.time()
@@ -96,7 +97,7 @@ def visualize_model(model, num_images, dataloaders, device):
                 ax.axis('off')
                 ax.set_title('predicted: {}'.format(class_names[preds[j]]))
                 imshow(inputs.cpu().data[j])
-                fig.savefig("output_preid.png")
+                fig.savefig("output_pred_color.png")
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return

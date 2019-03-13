@@ -15,12 +15,12 @@ from torchvision.transforms import Compose, RandomResizedCrop, RandomRotation, R
     Resize, RandomAffine, ColorJitter, Normalize
 #from sklearn.model_selection import KFold
 
-data_dir = '../Database/'
+data_dir = '../HairDataSet/'#'../Database/'
 N_CV = 5
-BATCH_SIZE = 8
+BATCH_SIZE = 29
 RANDOM_STATE = 1
 img_size = 224
-
+'''
 def getClass(x):
     return {
         'lc0': 0,
@@ -33,13 +33,39 @@ def getClass(x):
         'msb': 7,
         'pt': 8,
     }[x]
+'''
+
+def getClass(x):
+    return {
+        'l1': 0,
+        'l2': 1,
+        'l3': 2,
+        'l4': 3,
+        'l5': 4,
+        'l6': 5,
+        'm1': 6,
+        'm2': 7,
+        'm3': 8,
+        'm4': 9,
+        'm5': 10,
+        'm6': 11,
+        'b1': 12,
+        'b2': 13,
+        'b3': 14,
+        'b4': 15,
+        'b5': 16,
+        'b6': 17,
+        'p1': 18,
+        'p2': 19,
+        'p3': 20,
+    }[x]
 
 def _check_img(img_file):
-    if os.path.splitext(img_file)[-1] == ".jpg":
+    if os.path.splitext(img_file)[-1] == ".png" or os.path.splitext(img_file)[-1] == ".jpg" :
         return img_file
 
 def get_img_files(i_dir):
-    img_files = sorted(glob('{}/*.jpg'.format(i_dir)))
+    img_files = sorted(glob('{}/*'.format(i_dir)))
     #print(img_files)
     return np.array([_check_img(f) for f in img_files])
 
@@ -56,8 +82,10 @@ class HairStyleTestSet(Dataset):
         
     def __getitem__(self, idx):
         img = cv2.imread(self.img_files[idx])
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        #img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        #img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
         img_name = self.img_files[idx]
         img_name = img_name.split("/")[-1]
         img = Image.fromarray(img)

@@ -21,12 +21,14 @@ torch.backends.cudnn.deterministic = True
 torch.manual_seed(1)
 
 # %%
+num_classes = 21
 N_CV = 5
-BATCH_SIZE = 8
+#BATCH_SIZE = 8
+BATCH_SIZE = 16
 LR = 1e-4
 
 #N_EPOCHS = 100
-N_EPOCHS = 35
+N_EPOCHS = 100
 IMG_SIZE = 224
 RANDOM_STATE = 1
 
@@ -34,7 +36,8 @@ EXPERIMENT = 'train_unet'
 OUT_DIR = 'outputs/{}'.format(EXPERIMENT)
 
 
-data_dir = '../Database/'
+#data_dir = '../Database/'
+data_dir = '../HairDataSet/'
 img_size = 224
 
 
@@ -60,7 +63,8 @@ if __name__ == '__main__':
 #----Prepare Model-------------------------------------------------------------------------------
         model_ft = models.resnet18(pretrained=True)
         num_ftrs = model_ft.fc.in_features
-        model_ft.fc = nn.Linear(num_ftrs, 9)
+        #model_ft.fc = nn.Linear(num_ftrs, 9)
+        model_ft.fc = nn.Linear(num_ftrs, num_classes)
         model_ft = model_ft.to(device)
         criterion = nn.CrossEntropyLoss()
         # Observe that all parameters are being optimized
@@ -70,6 +74,6 @@ if __name__ == '__main__':
         model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,N_EPOCHS, data_loaders, dataset_sizes, device)
         visualize_model(model_ft, 20, data_loaders, device)
 
-        torch.save(model_ft.state_dict(), 'HairClassifier_resnet18.pth')
+        torch.save(model_ft.state_dict(), 'HairClassifier_resnet18_21classes_RGB.pth')
         break;
 
