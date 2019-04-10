@@ -4,6 +4,7 @@ __pycache__/
 *.png
 *.log
 *.csv
+!imgs/*
 */runs/*
 Untitled Folder
 ModelThumbnails
