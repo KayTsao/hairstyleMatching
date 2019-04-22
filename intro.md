@@ -1,4 +1,4 @@
-Since the beginning of this year, I’ve been working on a project that create 3D avatar from single photo (Shown in Fiureg.1). My major concern was on the hair part since it’s not well solved in most of the state-of-the-art applications. The 3D face mesh was generated from 3D morphable face model.
+Create 3D avatar from single photo (Shown in Fiureg.1). My major concern was on the hair part since it’s not well solved in most of the state-of-the-art applications. The 3D face mesh was generated from 3D morphable face model.
 
 
 ---
